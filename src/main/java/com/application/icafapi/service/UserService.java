@@ -4,7 +4,7 @@ import com.application.icafapi.common.util.EmailUtil;
 import com.application.icafapi.model.CustomUserDetails;
 import com.application.icafapi.model.User;
 import com.application.icafapi.repository.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.application.icafapi.common.constant.Email.*;
-
+@Slf4j
 @Service
 public class UserService implements UserDetailsService {
 
@@ -40,7 +40,7 @@ public class UserService implements UserDetailsService {
     public String insertUser(User user) {
         User user1 = repository.findByEmail(user.getEmail());
         //checking whether user is preregistered
-        if(user1 == null){
+        if(user1 != null){
             return null; //could throw an exception also
         }
         //encoding password and setting

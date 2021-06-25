@@ -8,7 +8,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,11 +27,13 @@ public class ICAFSecurityConfig extends WebSecurityConfigurerAdapter {
         return provider;
     }
 
-    protected void configure(HttpSecurity httpSecurity, WebSecurity web)throws Exception{
+    protected void configure(HttpSecurity httpSecurity)throws Exception{
         httpSecurity
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/**")
+                .antMatchers(HttpMethod.OPTIONS, "/")
+                .permitAll()
+                .antMatchers(HttpMethod.POST,"/api/v1/user")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
